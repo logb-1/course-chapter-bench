@@ -27,3 +27,23 @@
 1. 写 `tools/marp2jsonl.mjs`（在插件仓库里，不进本仓库），把 `lec1`…`lec14` 转成 `pages[]`。
 2. 先转 2 讲（约 80 页）做人工标注试点，验证"每讲一章 / 每节一章"的粒度约定。
 3. 试点通过后再批量转 14 讲，split 按讲划分（`lec1-10` train、`lec11-12` dev、`lec13-14` test）。
+
+## layout 赛道的来源排查（2026-10-24）
+
+目标：找**许可明确 + 含 PDF/PPTX**的中文课件，用来抽真实字号。
+
+| 候选 | 许可证 | 文件形态 | 结论 |
+|---|---|---|---|
+| [LearningOS/os-lectures](https://github.com/LearningOS/os-lectures) | MIT | 1133 个文件，**0 份讲义 PDF/PPTX**（只有 4 个插图 PDF） | 只能进 text 赛道 |
+| [niuniu-869/humanitys-last-math-book](https://github.com/niuniu-869/humanitys-last-math-book) | **CC-BY-SA-4.0** | 480 个 PDF，但**全部在 `books/*/fig/` 下，是插图**；正文是 LaTeX/Markdown | 需要本地编译 LaTeX 才有 PDF |
+| hqhq1025/ai-course-notes | 待核（API 返回 500） | 声称 303 份中文讲义 + PDF | 待重试 |
+
+**结论**：许可明确的中文课程，公开仓库里基本都是 Markdown/LaTeX 源码，
+很少附带编译好的 PDF/PPTX。真实版式的可选项只有三条：
+
+1. **你自己的课件**（PPTX/PDF 原生字号的唯一稳定来源）；
+2. **本地编译** CC-BY-SA 教材的 LaTeX（需要 TeX 环境）——编译产物的版式由模板决定，应在
+   `layout_source` 里标成 `latex-build`，不能当"真实排版"；
+3. **MIT OCW** 等英文 PDF（许可 CC BY-NC-SA，非商用限制）。
+
+当前 layout 赛道仅有 `deck-800`（`layout_source: pptx`，34 页全带字号）。
