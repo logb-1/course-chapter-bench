@@ -1,0 +1,14 @@
+# 数据许可 / Data license
+
+本仓库 `data/` 下的**标注**（章边界、章标题、页面标题、元数据）以
+**Creative Commons Attribution 4.0 International (CC-BY-4.0)** 发布。
+
+- 许可全文：https://creativecommons.org/licenses/by/4.0/legalcode
+- 署名要求：使用时请注明来源 `course-chapter-bench` 并保留每条记录 `source.author` 与 `source.url`。
+
+注意：
+
+1. **课件原文件不在此许可范围内**。每条记录单独标注 `source.license`；
+   `text_included: false` 的记录只发布标注与指纹，正文版权仍归原作者。
+2. 若你是某份课件的作者并希望移除，请开 issue，我们会在下一个版本删除该条记录。
+3. 发布正式版本前，应把 CC-BY-4.0 的完整 legalcode 文本放入本文件（当前为摘要 + 链接）。

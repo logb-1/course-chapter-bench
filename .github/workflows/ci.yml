@@ -1,0 +1,40 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Metric self-checks
+        run: node eval/test.mjs
+      - name: Gold self-check (plumbing)
+        run: node eval/run.mjs --gold data --pred data --self-check
+      - name: Schema sanity
+        run: |
+          node -e "
+          const { readFileSync, readdirSync } = require('node:fs');
+          let n = 0;
+          for (const f of readdirSync('data').filter(x => x.endsWith('.jsonl'))) {
+            for (const line of readFileSync('data/' + f, 'utf8').split(/\r?\n/).filter(Boolean)) {
+              const d = JSON.parse(line);
+              if (!d.id || !d.source?.license) throw new Error('missing id/license: ' + f);
+              if (!d.pages?.length) throw new Error('missing pages: ' + d.id);
+              if (!d.gold?.boundaries?.includes(1)) throw new Error('page 1 must be a boundary: ' + d.id);
+              for (const b of d.gold.boundaries) {
+                if (b < 1 || b > d.pages.length) throw new Error('boundary out of range: ' + d.id);
+              }
+              if (d.gold.titles && d.gold.titles.length !== d.gold.boundaries.length) throw new Error('titles length mismatch: ' + d.id);
+              n += 1;
+            }
+          }
+          console.log('schema ok:', n, 'documents');
+          "
