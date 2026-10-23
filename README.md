@@ -56,6 +56,17 @@ node eval/test.mjs                                           # 指标自检
 - **每份文档单独记许可**；不能再分发的课件只发布标注 + 指纹 + 获取方式，
   不复制正文（`text_included: false`）。来源清单见 [data/SOURCES.md](data/SOURCES.md)。
 
+## layout 赛道现状
+
+| 项 | 值 |
+|---|---|
+| 有真实字号/版式的文档 | **1**（`deck-800`，`layout_source: pptx`，34/34 页都带标题字号） |
+| 有结构的公开课讲义 | 13 讲（MIT），但**仓库里没有 PDF/PPTX，只有 Markdown**，没有可抽取的字号 |
+| 结论 | layout 赛道目前只有 1 份真实样本，还不足以单独报数；等有 PDF 来源再补 |
+
+`heading` 字段现在可以携带两种信号：`size`（字号，pt）与 `bold`（粗细）。
+`deck-800` 的字号来自 PPTX 的 `a:rPr sz`（百分之一磅 → 已换算成 pt）。
+
 ## 现状
 
 | 项 | 值 |

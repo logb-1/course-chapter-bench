@@ -14,6 +14,7 @@
     "sha256": "…"                       // 原文件的 sha256（前 16 位即可）
   },
   "text_included": true,                // false = 只发布标注，不复制正文
+  "layout_source": "pptx",              // pptx | pdf | marp-theme | none（layout 赛道用）
   "pages": [                            // text_included 为 true 时必填
     {
       "index": 1,                       // 1-based
