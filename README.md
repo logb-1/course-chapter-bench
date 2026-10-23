@@ -60,10 +60,21 @@ node eval/test.mjs                                           # 指标自检
 
 | 项 | 值 |
 |---|---|
-| 文档数 | 2（1 真实 + 1 玩具） |
-| 页数 | 34 + 12 |
-| 基线 | 见 `baselines/`（待补） |
-| 首个参考结果 | `deck-800`：windowDiff 0.061、boundaryF1 0.947（本插件 1.5.0 的分章管道） |
+| 文档数 | **5**（1 份真实结课汇报 + 2 份玩具 + 2 讲 MIT 公开课） |
+| 页数 | **269**（34 + 12 + 6 + 87 + 130） |
+| 章数 | 11 + 4 + 2 + 5 + 4 |
+| 可再分发正文 | os-lec1 / os-lec2 / 两份玩具（`text_included: true`） |
+
+**基线（`node baselines/*.mjs` 生成预测，`node eval/run.mjs --pred predictions` 评测）**
+
+| 基线 | windowDiff ↓ | Pk ↓ | boundaryF1 ↑ | BS ↑ | Δchapters ↓ |
+|---|---|---|---|---|---|
+| every-page（每页都算一章，地板线） | 0.994 | 0.511 | 0.272 | 0.684 | 48.6 |
+| section-heading（「第N节/第N章」正则，text-only） | **0.346** | **0.335** | 0.255 | 0.255 | **6.0** |
+
+> 玩具样例只有 12/6 页，会明显抬高 dense 基线的 BS；真实结论请看 `os-lec1`、`os-lec2` 两行（`eval/run.mjs` 会逐份打印）。
+
+**参考**：插件 1.5.0 的分章管道在 `deck-800` 上 windowDiff 0.061、boundaryF1 0.947（`deck-800` 的边界取自课件自带 § 编号）。
 
 ## 贡献
 
